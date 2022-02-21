@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <complex.h>
+#include <math.h>
+
+
+    const double C_val = 1e-6; // enter circuit parameter
+    const double R_val = 1000.0;
+    const double V_in = 5.0;
+    double freq = 100.0; //to be changed in for loop
+    double complex Z_c; 
+    double complex V_out;
+    double complex z1;
+    double complex z2; 
+    double db_r;
+
+
+double complex calc_Z_C(double, double);
+double complex Voltage_divider_V_out(double, double complex, double complex);
+double db_relation(double, double);
+
+int main()
+{
+  Z_c = calc_Z_C(freq, C_val);
+    printf( "Cap Impedence: %f\n", cimag(Z_c));
+    
+  V_out = Voltage_divider_V_out(V_in, Z_c, R_val);
+    printf( "Vout: %f\n", cimag(V_out));
+
+  db_r = db_relation(V_in, cabs(V_out));
+    printf( "Gain in dB: %f", db_r);
+
+    return 0;
+}
+
+double complex calc_Z_C(double freq, double C_val){ // Impedence calculation
+    const double pi = 3.14159;
+    return - I / ( 2 * pi * freq * C_val); 
+
+}
+
+double complex Voltage_divider_V_out(double V_in, double complex Z_c, double complex R_val){
+    double complex z1 = Z_c;
+    double complex z2 = R_val;
+    return (z2 / (z1 + z2)) * V_in;
+}
+
+double db_relation(double V_in, double V_out){
+    return 20 * log10(V_out / V_in);
+}
