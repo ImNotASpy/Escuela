@@ -9,7 +9,7 @@ int main(){
 }
 
 char sayMyName(int x){
-    char name[] = "victoria wallner"; //the name you want printed
+    char name[] = "your name"; //the name you want printed
     for(int i = 0; i < x; i++)
         printf("%s\n", name);
 }   
